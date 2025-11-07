@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+title Процесс добавление товара в корзину
+autonumber
+
+actor user as u
+
+participant web_ui as wi
+participant cart_service as cd
+
+' Пользователь добавляет товар в корзину
+u -> wi: нажимает на кнопку "Добавить в корзину"
+activate wi
+wi -> cd: POST /api/v1/cart/{userId}/{productId}
+activate cd
+
+alt #MistyRose успешное добавление товара в корзину
+cd --> wi: подтверждение добавления товара в корзину
+deactivate cd
+wi --> u: отображение товара в корзине
+else #LightCyan ошибка добавления товара в корзину
+cd --> wi: ошибка с кодом 400/401/404/500
+activate cd
+deactivate cd
+wi --> u: ошибка с кодом 400/401/404/500
+end
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+title Процесс выбора конкретного товара
+autonumber
+
+actor user as u
+
+participant web_ui as wi
+participant products_service as pd
+
+' Пользователь выбирает товар
+u -> wi: выбирает товар на витрине товаров
+activate wi
+wi -> pd: GET /api/v1/products/{id}
+activate pd
+
+
+alt #MistyRose данные выбранного товара успешно загружены
+pd --> wi: возвращает данные о конкретном товаре
+deactivate pd
+wi --> u: открывает страницу с детальным описанием товара
+else #LightCyan ошибка загрузки данных выбранного товара
+pd --> wi: ошибка с кодом 400/404/500
+activate pd
+deactivate pd
+wi --> u: код ошибки 400/404/500 с человекочитаемым описанием
+end
+
+@enduml

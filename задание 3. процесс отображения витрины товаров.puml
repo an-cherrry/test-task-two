@@ -1,0 +1,28 @@
+@startuml
+title Процесс отображения витрины товаров
+autonumber
+
+actor user as u
+
+
+participant web_ui as wi
+
+participant products_service as bd
+
+' Пользователь открывает витрину
+u -> wi: нажимает на кнопку "Витрина товаров"
+activate wi
+wi -> bd: GET /api/v1/products
+activate bd
+
+alt #MistyRose данные витрины товаров успешно загружены
+bd --> wi: возвращает данные о товарах
+deactivate bd
+wi --> u: отображает данные о товарах с кратким описанием
+else #LightCyan ошибка загрузки витрины
+bd --> wi: ошибка с кодом 400/500
+activate bd
+deactivate bd
+wi --> u: код ошибки 400/500 с человекочитаемым описанием
+end
+@enduml
