@@ -17,6 +17,8 @@
 
 ## Базы данных ER
 
+![](задание%202.%20Базы%20данных%20-%20ER%20.png)
+
 ```puml
 @startuml
 'https://plantuml.com/class-diagram
